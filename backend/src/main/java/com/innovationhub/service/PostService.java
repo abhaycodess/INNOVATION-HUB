@@ -25,4 +25,26 @@ public class PostService {
     public Optional<Post> findPostById(Long id) {
         return postRepository.findById(id);
     }
+
+    public Optional<Post> updatePost(Long id, Post postUpdateRequest) {
+        return postRepository.findById(id).map(post -> {
+            if (postUpdateRequest.getContent() != null) {
+                post.setContent(postUpdateRequest.getContent());
+            }
+            if (postUpdateRequest.getImageUrl() != null) {
+                post.setImageUrl(postUpdateRequest.getImageUrl());
+            }
+            if (postUpdateRequest.getVideoUrl() != null) {
+                post.setVideoUrl(postUpdateRequest.getVideoUrl());
+            }
+            if (postUpdateRequest.getLinkUrl() != null) {
+                post.setLinkUrl(postUpdateRequest.getLinkUrl());
+            }
+            return postRepository.save(post);
+        });
+    }
+
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.innovationhub.controller;
 
 import com.innovationhub.dto.CreatePostRequest;
+import com.innovationhub.dto.UpdatePostRequest;
 import com.innovationhub.entity.Post;
 import com.innovationhub.entity.User;
 import com.innovationhub.repository.UserRepository;
@@ -12,8 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
+import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/api/posts") // Changed from /api/ideas to /api/posts
@@ -54,5 +59,46 @@ public class PostController {
         return postService.findPostById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long id, @Valid @RequestBody UpdatePostRequest postRequest, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Post existingPost = postService.findPostById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
+
+        if (!Objects.equals(existingPost.getAuthor().getId(), currentUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not authorized to update this post");
+        }
+
+        Post postToUpdate = new Post();
+        postToUpdate.setContent(postRequest.getContent());
+        postToUpdate.setImageUrl(postRequest.getImageUrl());
+        postToUpdate.setVideoUrl(postRequest.getVideoUrl());
+        postToUpdate.setLinkUrl(postRequest.getLinkUrl());
+
+        return postService.updatePost(id, postToUpdate)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deletePost(@PathVariable Long id, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Post existingPost = postService.findPostById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
+
+        if (!Objects.equals(existingPost.getAuthor().getId(), currentUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not authorized to delete this post");
+        }
+
+        postService.deletePost(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
