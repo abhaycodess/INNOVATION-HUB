@@ -9,7 +9,7 @@ const getAllPosts = () => {
   return axios.get(API_URL);
 };
 
-// Function to create a new post
+// Function to create a new post (supports file upload)
 const createPost = (postData) => {
   const user = authService.getCurrentUser();
   const token = user ? user.token : null;
@@ -20,8 +20,9 @@ const createPost = (postData) => {
 
   return axios.post(API_URL, postData, {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
   });
 };
 

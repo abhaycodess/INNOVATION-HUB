@@ -1,6 +1,15 @@
 package com.innovationhub.controller;
 
-import com.innovationhub.dto.CreatePostRequest;
+
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.StringUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 import com.innovationhub.dto.UpdatePostRequest;
 import com.innovationhub.entity.Post;
 import com.innovationhub.entity.User;
@@ -31,18 +40,39 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping
-    public ResponseEntity<Post> createPost(@Valid @RequestBody CreatePostRequest postRequest, Authentication authentication) {
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<Post> createPostWithFile(
+            @RequestParam("content") String content,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "video", required = false) MultipartFile video,
+            Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User currentUser = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Post post = new Post();
-        post.setContent(postRequest.getContent());
-        post.setImageUrl(postRequest.getImageUrl());
-        post.setVideoUrl(postRequest.getVideoUrl());
-        post.setLinkUrl(postRequest.getLinkUrl());
+        post.setContent(content);
         post.setAuthor(currentUser);
+
+        // File upload directory (ensure this exists or create it)
+        String uploadDir = System.getProperty("user.dir") + "/uploads";
+        File dir = new File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        if (image != null && !image.isEmpty()) {
+            String originalName = image.getOriginalFilename() != null ? image.getOriginalFilename() : "image";
+            String imageFileName = UUID.randomUUID() + "_" + StringUtils.cleanPath(Objects.requireNonNull(originalName));
+            Path imagePath = Paths.get(uploadDir, imageFileName);
+            Files.copy(image.getInputStream(), imagePath);
+            post.setImageUrl("/uploads/" + imageFileName);
+        }
+        if (video != null && !video.isEmpty()) {
+            String originalName = video.getOriginalFilename() != null ? video.getOriginalFilename() : "video";
+            String videoFileName = UUID.randomUUID() + "_" + StringUtils.cleanPath(Objects.requireNonNull(originalName));
+            Path videoPath = Paths.get(uploadDir, videoFileName);
+            Files.copy(video.getInputStream(), videoPath);
+            post.setVideoUrl("/uploads/" + videoFileName);
+        }
 
         Post createdPost = postService.createPost(post);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
