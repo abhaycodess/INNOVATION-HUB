@@ -1,6 +1,8 @@
 
-import React from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from '../contexts/UserContext';
 import { Container, Button, Box, Typography, Card, CardContent, Avatar, Grid, Divider } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 import { styled } from '@mui/material/styles';
 
 const Highlight = styled('span')(({ theme }) => ({
@@ -76,6 +78,7 @@ const features = [
 ];
 
 const LandingPage = () => {
+  const { user } = useContext(UserContext);
   return (
     <Box sx={{ bgcolor: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column', pt: { xs: 8, md: 10 } }}>
       {/* Hero Section */}
@@ -124,20 +127,31 @@ const LandingPage = () => {
           Community Posts
         </Typography>
         <Grid container spacing={3}>
-          {dummyPosts.map((post, idx) => (
-            <Grid item xs={12} key={idx}>
-              <Card sx={{ borderRadius: 4, boxShadow: 'none', bgcolor: '#f1f5f9' }}>
-                <CardContent sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <Avatar src={post.profilePic} alt={post.user} sx={{ width: 48, height: 48 }} />
-                  <Box>
-                    <Typography sx={{ fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>{post.user}</Typography>
-                    <Typography sx={{ color: '#222', fontFamily: 'Cormorant Garamond, serif', fontSize: 18 }}>{post.content}</Typography>
-                    <Typography variant="caption" sx={{ color: '#888', fontFamily: 'Inter, sans-serif' }}>{post.time}</Typography>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          {dummyPosts.map((post, idx) => {
+            const [imgLoaded, setImgLoaded] = useState(false);
+            return (
+              <Grid item xs={12} key={idx}>
+                <Card sx={{ borderRadius: 4, boxShadow: 'none', bgcolor: '#f1f5f9' }}>
+                  <CardContent sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                    <Box sx={{ position: 'relative', width: 48, height: 48 }}>
+                      {!imgLoaded && <Skeleton variant="circular" width={48} height={48} />}
+                      <Avatar
+                        src={post.profilePic}
+                        alt={post.user}
+                        sx={{ width: 48, height: 48, position: 'absolute', top: 0, left: 0, opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.2s' }}
+                        imgProps={{ loading: 'lazy', onLoad: () => setImgLoaded(true) }}
+                      />
+                    </Box>
+                    <Box>
+                      <Typography sx={{ fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>{post.user}</Typography>
+                      <Typography sx={{ color: '#222', fontFamily: 'Cormorant Garamond, serif', fontSize: 18 }}>{post.content}</Typography>
+                      <Typography variant="caption" sx={{ color: '#888', fontFamily: 'Inter, sans-serif' }}>{post.time}</Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
       </Container>
 
@@ -147,17 +161,28 @@ const LandingPage = () => {
           What Our Users Say
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {dummyReviews.map((review, idx) => (
-            <Grid item xs={12} sm={6} md={4} key={idx}>
-              <Card sx={{ borderRadius: 4, boxShadow: 'none', bgcolor: '#f8fafc', height: '100%' }}>
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                  <Avatar src={review.profilePic} alt={review.name} sx={{ width: 56, height: 56, mb: 1 }} />
-                  <Typography sx={{ fontWeight: 700, fontFamily: 'Inter, sans-serif', mb: 1 }}>{review.name}</Typography>
-                  <Typography sx={{ color: '#222', fontFamily: 'Cormorant Garamond, serif', fontSize: 18, textAlign: 'center' }}>{review.review}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          {dummyReviews.map((review, idx) => {
+            const [imgLoaded, setImgLoaded] = useState(false);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={idx}>
+                <Card sx={{ borderRadius: 4, boxShadow: 'none', bgcolor: '#f8fafc', height: '100%' }}>
+                  <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                    <Box sx={{ position: 'relative', width: 56, height: 56, mb: 1 }}>
+                      {!imgLoaded && <Skeleton variant="circular" width={56} height={56} />}
+                      <Avatar
+                        src={review.profilePic}
+                        alt={review.name}
+                        sx={{ width: 56, height: 56, position: 'absolute', top: 0, left: 0, opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.2s' }}
+                        imgProps={{ loading: 'lazy', onLoad: () => setImgLoaded(true) }}
+                      />
+                    </Box>
+                    <Typography sx={{ fontWeight: 700, fontFamily: 'Inter, sans-serif', mb: 1 }}>{review.name}</Typography>
+                    <Typography sx={{ color: '#222', fontFamily: 'Cormorant Garamond, serif', fontSize: 18, textAlign: 'center' }}>{review.review}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
       </Container>
 

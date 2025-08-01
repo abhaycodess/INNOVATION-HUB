@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
-import authService from './services/authService';
+import authService, { getCurrentUser } from './services/authService';
+import axios from './axios';
 import { pingBackend } from './services/pingService';
 import HomePage from './pages/HomePage';
 import FriendsPage from './pages/FriendsPage';
@@ -15,15 +16,24 @@ const AboutPage = () => <div style={{padding: 40}}><h2>About Us</h2><p>Info abou
 const ProfilePage = () => <div style={{padding: 40}}><h2>Your Profile</h2><p>Profile details here.</p></div>;
 
 function App() {
-  React.useEffect(() => {
+  const [user, setUser] = useState(() => getCurrentUser());
+
+  useEffect(() => {
+    // Restore user state from localStorage on every load
+    const storedUser = getCurrentUser();
+    if (storedUser) {
+      setUser(storedUser);
+    }
     // On app load, ping backend. If unavailable, log out user.
     (async () => {
       const ok = await pingBackend();
       if (!ok) {
         authService.logout();
+        setUser(null);
       }
     })();
   }, []);
+
   return (
     <div>
       <Navbar />

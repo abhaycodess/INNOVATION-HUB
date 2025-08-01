@@ -36,6 +36,13 @@ const Navbar = () => {
 
   const profilePic = user?.profilePic;
   const username = user?.username;
+  const gender = user?.gender; // Make sure gender is available in user object
+  // Profile Pic API
+  // https://avatar.iran.liara.run/public/boy?username=
+  // https://avatar.iran.liara.run/public/girl?username=
+  const boyPic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
+  const girlPic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+  const avatarUrl = gender === 'girl' ? girlPic : boyPic;
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -145,7 +152,7 @@ const Navbar = () => {
               <Tooltip title={username || 'Profile'}>
                 <IconButton onClick={handleAvatarClick} sx={{ ml: 2 }}>
                   <Avatar
-                    src={profilePic || `https://avatar.iran.liara.run/public/boy?username=${username || 'user'}`}
+                    src={avatarUrl}
                     alt={username || 'Profile'}
                     sx={{ width: 36, height: 36, border: '2px solid #059669', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }}
                     imgProps={{ loading: 'lazy' }}
