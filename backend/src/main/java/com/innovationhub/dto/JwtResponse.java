@@ -6,12 +6,14 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
+    private String profilePic;
 
-    public JwtResponse(String accessToken, Long id, String username, String email) {
+    public JwtResponse(String accessToken, Long id, String username, String email, String profilePic) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
+        this.profilePic = profilePic;
     }
 
     // Getters and Setters
@@ -53,5 +55,13 @@ public class JwtResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }

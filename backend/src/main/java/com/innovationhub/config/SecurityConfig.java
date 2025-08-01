@@ -38,8 +38,8 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/auth/**").permitAll()
-                    // This rule is now corrected to /api/posts
-                    .requestMatchers(HttpMethod.GET, "/api/posts", "/api/posts/**").permitAll() 
+                    .requestMatchers(HttpMethod.GET, "/api/posts", "/api/posts/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/dummy-users", "/api/dummy-users/**").permitAll()
                     .anyRequest().authenticated()
             );
         

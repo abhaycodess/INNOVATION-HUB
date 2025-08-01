@@ -59,7 +59,7 @@ public class AuthController {
         org.springframework.security.core.userdetails.User userDetails = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername()).get();
 
-        return ResponseEntity.ok(new JwtResponse(jwt, user.getId(), user.getUsername(), user.getEmail()));
+        return ResponseEntity.ok(new JwtResponse(jwt, user.getId(), user.getUsername(), user.getEmail(), user.getProfilePic()));
     }
 
     @PostMapping("/register")
@@ -74,6 +74,14 @@ public class AuthController {
 
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
+
+        // Assign default avatar (random boy/girl for now)
+        String username = signUpRequest.getUsername();
+        boolean isBoy = Math.random() < 0.5; // Random gender, replace with user input if needed
+        String profilePic = isBoy
+                ? "https://avatar.iran.liara.run/public/boy?username=" + username
+                : "https://avatar.iran.liara.run/public/girl?username=" + username;
+        user.setProfilePic(profilePic);
 
         userRepository.save(user);
 

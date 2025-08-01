@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
+    private String profilePic;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,6 +63,14 @@ public class User {
         this.password = password;
     }
 
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -79,10 +88,12 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonIgnore
     public void setPassword(String password) {
         this.password = password;
     }
