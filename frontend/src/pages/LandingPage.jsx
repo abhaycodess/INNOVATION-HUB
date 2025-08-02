@@ -1,41 +1,12 @@
-// Dummy stories data
-const dummyStories = [
-  {
-    name: 'Priya',
-    avatar: 'https://avatar.iran.liara.run/public/girl?username=priya',
-  },
-  {
-    name: 'Rahul',
-    avatar: 'https://avatar.iran.liara.run/public/boy?username=rahul',
-  },
-  {
-    name: 'Aisha',
-    avatar: 'https://avatar.iran.liara.run/public/girl?username=aisha',
-  },
-  {
-    name: 'Siddharth',
-    avatar: 'https://avatar.iran.liara.run/public/boy?username=siddharth',
-  },
-  {
-    name: 'Megha',
-    avatar: 'https://avatar.iran.liara.run/public/girl?username=megha',
-  },
-  {
-    name: 'Arjun',
-    avatar: 'https://avatar.iran.liara.run/public/boy?username=arjun',
-  },
-];
-
 import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { Container, Button, Box, Typography, Card, CardContent, Avatar, Grid, Divider } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import { styled } from '@mui/material/styles';
-import { useEffect, useRef, useState as useReactState } from 'react';
 import { motion } from 'framer-motion';
 
-const Highlight = styled('span')(({ theme }) => ({
+const Highlight = styled('span')(() => ({
   background: '#6ee7b7',
   color: '#111',
   borderRadius: 6,
@@ -47,30 +18,6 @@ const Highlight = styled('span')(({ theme }) => ({
   whiteSpace: 'pre',
   fontFamily: 'inherit',
 }));
-
-// Typing animation for highlighted words: green box always visible, letters animate inside
-// ...existing code...
-
-const dummyPosts = [
-  {
-    user: 'Priya Sharma',
-    profilePic: 'https://avatar.iran.liara.run/public/girl?username=priya',
-    content: 'Looking for a React developer to join my team for the next hackathon! DM if interested.',
-    time: '2 hours ago',
-  },
-  {
-    user: 'Rahul Verma',
-    profilePic: 'https://avatar.iran.liara.run/public/boy?username=rahul',
-    content: 'Anyone up for building an AI-powered project? Let’s connect and brainstorm!',
-    time: '5 hours ago',
-  },
-  {
-    user: 'Aisha Khan',
-    profilePic: 'https://avatar.iran.liara.run/public/girl?username=aisha',
-    content: 'Just registered for CodeFest 2025! Who else is joining? Let’s form a team!',
-    time: '1 day ago',
-  },
-];
 
 const dummyReviews = [
   {
@@ -114,7 +61,7 @@ const features = [
 ];
 
 const LandingPage = () => {
-  const { user } = useContext(UserContext);
+  const { user: _user } = useContext(UserContext);
   const navigate = useNavigate();
   // Fix: useState for review avatar loading
   const [reviewImgLoaded, setReviewImgLoaded] = useState(Array(dummyReviews.length).fill(false));
