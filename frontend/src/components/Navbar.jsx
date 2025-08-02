@@ -25,7 +25,7 @@ const Navbar = () => {
     { label: 'Home', to: '/' },
     { label: 'About Us', to: '/about' },
     { label: 'Blog', to: '/blog' },
-    { label: 'Q&A', to: '#' },
+    { label: 'Q&A', to: '/qa' },
   ];
 
   const username = user?.username;
@@ -123,9 +123,8 @@ const Navbar = () => {
           {navLinks.map(link => (
             <MuiLink
               key={link.label}
-              component={link.to !== '#' ? RouterLink : 'a'}
-              to={link.to !== '#' ? link.to : undefined}
-              href={link.to === '#' ? '#' : undefined}
+              component={RouterLink}
+              to={link.to}
               underline="none"
               sx={{
                 color: location.pathname === link.to ? '#059669' : '#222',

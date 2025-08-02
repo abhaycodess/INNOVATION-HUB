@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Container, Box, Typography, Button, Avatar, Grid, CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import authService from '../services/authService';
 
@@ -11,7 +10,6 @@ const FriendsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [connecting, setConnecting] = useState({});
-  const navigate = useNavigate();
   const currentUser = authService.getCurrentUser();
 
   useEffect(() => {
@@ -19,7 +17,7 @@ const FriendsPage = () => {
       try {
         const res = await axios.get(API_URL);
         setUsers(res.data.filter(u => u.username !== currentUser?.username));
-      } catch (err) {
+      } catch {
         setError('Failed to load users.');
       } finally {
         setLoading(false);

@@ -1,11 +1,12 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Box, Typography, Container, Grid, Avatar, Chip, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { dummyPosts } from '../data/dummyPosts';
 import BlogCard from '../components/BlogCard';
 
-const Highlight = styled('span')(({ theme }) => ({
+const Highlight = styled('span')(() => ({
   background: '#6ee7b7',
   color: '#111',
   borderRadius: 6,

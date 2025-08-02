@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Box, Typography, Avatar, Chip, Card, CardContent, CardMedia } from '@mui/material';
 
