@@ -17,6 +17,7 @@ import ChatPage from './pages/ChatPage';
 // Placeholder About and Profile pages
 const AboutPage = () => <div style={{padding: 40}}><h2>About Us</h2><p>Info about the platform.</p></div>;
 const ProfilePage = () => <div style={{padding: 40}}><h2>Your Profile</h2><p>Profile details here.</p></div>;
+const SettingsPage = () => <div style={{padding: 40}}><h2>Settings</h2><p>Settings details here.</p></div>;
 
 function App() {
   const { user } = useContext(UserContext);
@@ -42,6 +43,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </div>
   )
