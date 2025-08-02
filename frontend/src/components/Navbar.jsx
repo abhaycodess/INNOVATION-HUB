@@ -28,7 +28,6 @@ const Navbar = () => {
     { label: 'Q&A', to: '#' },
   ];
 
-  const profilePic = user?.profilePic;
   const username = user?.username;
   const gender = user?.gender; // Make sure gender is available in user object
   // Profile Pic API
