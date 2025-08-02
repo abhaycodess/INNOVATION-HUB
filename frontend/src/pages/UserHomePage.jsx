@@ -130,7 +130,7 @@ const UserHomePage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          ml: { sm: '80px' },
+          ml: { sm: '220px' },
           mr: { sm: '300px' },
           display: 'flex',
           flexDirection: 'column',
