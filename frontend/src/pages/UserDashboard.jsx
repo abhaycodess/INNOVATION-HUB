@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Avatar,
   Box,
@@ -13,6 +13,8 @@ import {
   ListItemText,
   Chip,
   Collapse,
+  Card,
+  CardContent,
 } from '@mui/material';
 import {
   Email,
@@ -21,8 +23,12 @@ import {
   CalendarToday,
   ExpandLess,
   ExpandMore,
+  CheckCircleOutline,
+  Timeline,
+  BarChart,
 } from '@mui/icons-material';
-import authService, { getCurrentUser } from '../services/authService';
+import { motion } from 'framer-motion';
+import { UserContext } from '../contexts/UserContext';
 
 const projects = [
   {
@@ -30,21 +36,24 @@ const projects = [
     date: 'March 06, 2024',
     stage: 'Prototyping',
     daysLeft: 2,
-    color: '#FFF7D1',
+    color: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+    icon: <CheckCircleOutline />,
   },
   {
     title: 'Mobile App',
     date: 'March 08, 2024',
     stage: 'Design',
     daysLeft: 5,
-    color: '#E6F3FF',
+    color: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+    icon: <Timeline />,
   },
   {
     title: 'Dashboard',
     date: 'March 12, 2024',
     stage: 'Wireframe',
     daysLeft: 8,
-    color: '#FFE6E6',
+    color: 'linear-gradient(135deg, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%)',
+    icon: <BarChart />,
   },
 ];
 
@@ -67,189 +76,139 @@ const dummyMessages = [
 ];
 
 const UserDashboard = () => {
-  const [user, setUser] = useState(() => {
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
-  });
+  const { user } = useContext(UserContext);
   const [showInfo, setShowInfo] = useState(true);
   const [showInbox, setShowInbox] = useState(true);
 
-  useEffect(() => {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      setUser(JSON.parse(userStr));
-    }
-  }, []);
+  const MotionCard = motion(Card);
 
   return (
     <Box
       sx={{
-        p: 3,
+        p: { xs: 2, sm: 3, md: 4 },
         pt: { xs: 8, sm: 10 },
-        bgcolor: '#f9f9f9',
+        bgcolor: '#f0f2f5',
         minHeight: '100vh',
         fontFamily: 'Inter, sans-serif',
-        marginLeft: '24px',
-        marginRight: '24px',
       }}
     >
-      <Grid container spacing={10}>
+      <Grid container spacing={{ xs: 2, md: 4 }}>
         {/* Left Panel */}
-        <Grid item xs={12} md={3}>
-          {/* Profile Card */}
-          <Paper elevation={3} sx={{ p: 4, borderRadius: 4, mb: 4 }}>
-            <Box display="flex" alignItems="center" gap={2}>
-              <Avatar
-                src={(() => {
-                  if (user?.profilePic) return user.profilePic;
-                  if (user?.gender && user?.username) {
-                    return user.gender === 'girl'
-                      ? `https://avatar.iran.liara.run/public/girl?username=${user.username}`
-                      : `https://avatar.iran.liara.run/public/boy?username=${user.username}`;
-                  }
-                  return undefined;
-                })()}
-                sx={{ width: 64, height: 64, boxShadow: '0 2px 8px rgba(0,0,0,0.10)', border: '2px solid #b8d8be' }}
-              />
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 600 }}
-                >
-                  {user?.username || 'User'}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {user?.email || ''}
+        <Grid item xs={12} md={4} lg={3}>
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <Paper elevation={5} sx={{ p: { xs: 2, md: 3 }, borderRadius: 4, mb: 4, bgcolor: '#ffffff' }}>
+              <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+                <Avatar
+                  src={user?.profilePic || (user?.gender === 'girl' ? `https://avatar.iran.liara.run/public/girl?username=${user.username}` : `https://avatar.iran.liara.run/public/boy?username=${user.username}`)}
+                  sx={{ width: 80, height: 80, boxShadow: '0 4px 12px rgba(0,0,0,0.15)', border: '3px solid #6ee7b7' }}
+                />
+                <Box textAlign="center">
+                  <Typography variant="h5" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>
+                    {user?.username || 'User'}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {user?.email || 'email@example.com'}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box mt={3} display="flex" justifyContent="space-around">
+                <Tooltip title="Email">
+                  <IconButton sx={{ color: '#38bdf8' }}><Email /></IconButton>
+                </Tooltip>
+                <Tooltip title="Phone">
+                  <IconButton sx={{ color: '#38bdf8' }}><Phone /></IconButton>
+                </Tooltip>
+                <Tooltip title="Video Call">
+                  <IconButton sx={{ color: '#38bdf8' }}><VideoCall /></IconButton>
+                </Tooltip>
+                <Tooltip title="Calendar">
+                  <IconButton sx={{ color: '#38bdf8' }}><CalendarToday /></IconButton>
+                </Tooltip>
+              </Box>
+              <Box mt={3} p={2} bgcolor="#eef2f7" borderRadius={2} textAlign="center">
+                <Typography variant="overline" color="text.secondary">Time Slot</Typography>
+                <Typography fontWeight="bold" variant="body1">
+                  {user?.slot || 'April, 2024'}
                 </Typography>
               </Box>
-            </Box>
-            <Box mt={2} display="flex" justifyContent="space-around">
-              <Tooltip title="Email">
-                <IconButton>
-                  <Email />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Phone">
-                <IconButton>
-                  <Phone />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Video Call">
-                <IconButton>
-                  <VideoCall />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Calendar">
-                <IconButton>
-                  <CalendarToday />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box
-              mt={2}
-              p={1}
-              bgcolor="#f1f1f1"
-              borderRadius={2}
-              textAlign="center"
-            >
-              <Typography variant="body2">Time Slot</Typography>
-              <Typography fontWeight="bold">
-                {user?.slot || 'April, 2024'}
-              </Typography>
-            </Box>
-          </Paper>
+            </Paper>
+          </motion.div>
 
-          {/* Detailed Info - Collapsible */}
-          <Paper elevation={3} sx={{ p: 3, borderRadius: 4 }}>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="subtitle1">Detailed Info</Typography>
-              <IconButton onClick={() => setShowInfo(!showInfo)}>
-                {showInfo ? <ExpandLess /> : <ExpandMore />}
-              </IconButton>
-            </Box>
-            <Collapse in={showInfo}>
-              <Divider sx={{ mb: 1 }} />
-              <List dense>
-                <ListItem>
-                  <ListItemText primary="Full Name" secondary={user?.name} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Email" secondary={user?.email} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Phone" secondary={user?.phone} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Designation" secondary={user?.role} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="Availability"
-                    secondary="Schedule the time slot"
-                  />
-                </ListItem>
-              </List>
-            </Collapse>
-          </Paper>
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+            <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>Detailed Info</Typography>
+                <IconButton onClick={() => setShowInfo(!showInfo)}>
+                  {showInfo ? <ExpandLess /> : <ExpandMore />}
+                </IconButton>
+              </Box>
+              <Collapse in={showInfo}>
+                <Divider sx={{ my: 2 }} />
+                <List dense>
+                  <ListItem>
+                    <ListItemText primary="Full Name" secondary={user?.name || 'N/A'} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Email" secondary={user?.email || 'N/A'} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Phone" secondary={user?.phone || 'N/A'} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Designation" secondary={user?.role || 'N/A'} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Availability" secondary="Schedule the time slot" />
+                  </ListItem>
+                </List>
+              </Collapse>
+            </Paper>
+          </motion.div>
         </Grid>
 
         {/* Right Panel */}
-        <Grid item xs={12} md={9}>
-          <Grid container spacing={20}>
-            {/* Main Content Column */}
-            <Grid item xs={12} lg={9}>
-              <Grid container spacing={4}>
-                {projects.map((proj, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    lg={4}
-                    key={index}
-                  >
-                    <Paper
-                      sx={{
-                        p: 3,
-                        bgcolor: proj.color,
-                        borderRadius: 4,
-                        height: '100%',
-                        transition: 'transform 0.2s ease-in-out',
-                        '&:hover': {
-                          transform: 'translateY(-4px)',
-                        },
-                      }}
-                      elevation={3}
-                    >
+        <Grid item xs={12} md={8} lg={9}>
+          <Typography variant="h4" sx={{ mb: 4, fontWeight: 900, fontFamily: 'Cormorant Garamond, serif' }}>
+            Welcome back, {user?.username || 'User'}!
+          </Typography>
+          <Grid container spacing={4}>
+            {projects.map((proj, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <MotionCard
+                  elevation={5}
+                  sx={{
+                    borderRadius: 4,
+                    color: '#fff',
+                    background: proj.color,
+                    height: '100%',
+                  }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
+                  <CardContent>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
                       <Typography variant="caption">{proj.date}</Typography>
-                      <Typography variant="h6">{proj.title}</Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {proj.stage}
-                      </Typography>
-                      <Chip
-                        label={`${proj.daysLeft} Days Left`}
-                        size="small"
-                        sx={{ mt: 1, bgcolor: '#fff' }}
-                      />
-                    </Paper>
-                  </Grid>
-                ))}
+                      {proj.icon}
+                    </Box>
+                    <Typography variant="h6" sx={{ fontWeight: 700, my: 1 }}>{proj.title}</Typography>
+                    <Typography variant="body2" sx={{ mb: 2 }}>{proj.stage}</Typography>
+                    <Chip
+                      label={`${proj.daysLeft} Days Left`}
+                      size="small"
+                      sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', color: '#fff', fontWeight: 'bold' }}
+                    />
+                  </CardContent>
+                </MotionCard>
               </Grid>
-            </Grid>
+            ))}
+          </Grid>
 
-            {/* Sidebar Column */}
-            <Grid item xs={12} lg={5}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {/* Inbox Card */}
-                <Paper sx={{
-                  p: 3,
-                  borderRadius: 4,
-                  transition: 'transform 0.2s ease-in-out',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  },
-                }} elevation={3}>
+          <Grid container spacing={4} sx={{ mt: 2 }}>
+            <Grid item xs={12} lg={7}>
+              <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
+                <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="subtitle1">Notifications</Typography>
+                    <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>Notifications</Typography>
                     <IconButton onClick={() => setShowInbox(!showInbox)}>
                       {showInbox ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
@@ -260,51 +219,51 @@ const UserDashboard = () => {
                         <Box
                           key={i}
                           display="flex"
-                          gap={3}
+                          gap={2}
                           alignItems="center"
                           p={2}
-                          bgcolor={i === 1 ? '#000' : '#f5f5f5'}
+                          bgcolor={i === 1 ? '#111' : '#f0f2f5'}
                           color={i === 1 ? '#fff' : '#000'}
                           borderRadius={2}
+                          component={motion.div}
+                          whileHover={{ scale: 1.03 }}
                         >
-                          <Avatar src={msg.avatar} sx={{ width: 40, height: 40, mr: 1 }} />
+                          <Avatar src={msg.avatar} sx={{ width: 40, height: 40 }} />
                           <Box>
-                            <Typography fontWeight="bold" sx={{ fontSize: 16 }}>{msg.sender}</Typography>
-                            <Typography variant="body2" sx={{ fontSize: 15 }}>{msg.message}</Typography>
+                            <Typography fontWeight="bold" sx={{ fontSize: '0.95rem' }}>{msg.sender}</Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{msg.message}</Typography>
                           </Box>
                         </Box>
                       ))}
                     </Box>
                   </Collapse>
                 </Paper>
-
-                {/* Calendar Card */}
-                <Paper sx={{
-                  p: 3,
-                  borderRadius: 4,
-                  transition: 'transform 0.2s ease-in-out',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  },
-                }} elevation={3}>
-                  <Typography variant="subtitle1" gutterBottom>
+              </motion.div>
+            </Grid>
+            <Grid item xs={12} lg={5}>
+              <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }}>
+                <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
+                  <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>
                     Calendar - March
                   </Typography>
-                  <Box
-                    display="grid"
-                    gridTemplateColumns="repeat(7, 1fr)"
-                    gap={2}
-                    textAlign="center"
-                  >
+                  <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1} textAlign="center">
+                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => <Typography key={day} variant="caption" color="text.secondary">{day}</Typography>)}
                     {Array.from({ length: 31 }, (_, i) => {
                       const isMarked = [5, 8, 12, 21].includes(i + 1);
                       return (
                         <Box
                           key={i}
                           p={1}
-                          borderRadius={2}
-                          bgcolor={isMarked ? '#000' : '#e0e0e0'}
+                          borderRadius="50%"
+                          bgcolor={isMarked ? '#38bdf8' : 'transparent'}
                           color={isMarked ? '#fff' : '#000'}
+                          sx={{
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                              bgcolor: isMarked ? '#38bdf8' : '#e0e0e0',
+                              transform: 'scale(1.1)'
+                            }
+                          }}
                         >
                           {i + 1}
                         </Box>
@@ -312,7 +271,7 @@ const UserDashboard = () => {
                     })}
                   </Box>
                 </Paper>
-              </Box>
+              </motion.div>
             </Grid>
           </Grid>
         </Grid>
