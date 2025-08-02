@@ -138,13 +138,13 @@ const UserHomePage = () => {
         }}
       >
         {/* Stories/Highlights Bar */}
-        <Box sx={{ width: '100%', py: 2, bgcolor: '#fff', borderBottom: '1px solid #e2e8f0' }}>
+        <Box sx={{ width: '100%', py: 10, bgcolor: '#fff', borderBottom: '1px solid #e2e8f0' }}>
           <Box sx={{
             maxWidth: '1200px',
             mx: 'auto',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(64px, 1fr))',
-            gap: 3,
+            gap: 4,
             px: 2,
           }}>
             {dummyStories.map((story, idx) => (

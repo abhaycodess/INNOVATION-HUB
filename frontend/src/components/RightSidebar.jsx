@@ -30,7 +30,7 @@ const RightSidebar = () => {
   };
 
   const cardStyles = {
-    borderRadius: '16px',
+    borderRadius: '14px',
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
     backdropFilter: 'blur(10px)',
     border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -53,9 +53,9 @@ const RightSidebar = () => {
         flexDirection: 'column',
         bgcolor: 'rgba(241, 245, 249, 0.8)',
         boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
-        p: 2,
+        p: 10,
         gap: 2,
-        zIndex: 1000,
+        zIndex: 900,
         backdropFilter: 'blur(10px)',
       }}
     >
