@@ -1,10 +1,17 @@
 import { Card, CardHeader, Avatar, IconButton, CardContent, Typography, Box, CardActions } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ShareIcon from '@mui/icons-material/Share';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
 const PostCard = ({ post }) => {
   return (
-    <Card sx={{
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card sx={{
         mb: 3,
         borderRadius: 4,
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
