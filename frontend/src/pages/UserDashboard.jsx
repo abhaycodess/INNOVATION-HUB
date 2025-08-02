@@ -218,6 +218,41 @@ const UserDashboard = () => {
                 </Grid>
               ))}
             </Grid>
+        {/* Right Panel */}
+        </Grid>
+        <Grid item xs={12} md={8} lg={9}>
+          <Typography variant="h4" sx={{ mb: 4, fontWeight: 900, fontFamily: 'Cormorant Garamond, serif' }}>
+            Welcome back, {user?.username || 'User'}!
+          </Typography>
+          <Grid container spacing={4}>
+            {projects.map((proj, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  elevation={5}
+                  sx={{
+                    borderRadius: 4,
+                    color: '#fff',
+                    background: proj.color,
+                    height: '100%',
+                  }}
+                >
+                  <CardContent>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
+                      <Typography variant="caption">{proj.date}</Typography>
+                      {proj.icon}
+                    </Box>
+                    <Typography variant="h6" sx={{ fontWeight: 700, my: 1 }}>{proj.title}</Typography>
+                    <Typography variant="body2" sx={{ mb: 2 }}>{proj.stage}</Typography>
+                    <Chip
+                      label={`${proj.daysLeft} Days Left`}
+                      size="small"
+                      sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', color: '#fff', fontWeight: 'bold' }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
 
             <Grid container spacing={4} sx={{ mt: 2 }}>
               <Grid item xs={12} lg={4}>

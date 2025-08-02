@@ -23,6 +23,7 @@ const dummyHackathons = [
 ];
 
 const RightSidebar = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [newsExpanded, setNewsExpanded] = useState(true);
 
   const handleNewsExpand = () => {
@@ -43,102 +44,109 @@ const RightSidebar = () => {
 
   return (
     <Box
+      component="aside"
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
       sx={{
         position: 'fixed',
         right: 0,
         top: 0,
         height: '100vh',
-        width: '300px',
+        width: isExpanded ? '250px' : '80px',
         display: 'flex',
         flexDirection: 'column',
         bgcolor: 'rgba(241, 245, 249, 0.8)',
-        boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
-        p: 10,
+        boxShadow: '-2px 0 10px rgba(0,0,0,0.1)',
+        p: 2,
         gap: 2,
         zIndex: 900,
         backdropFilter: 'blur(10px)',
+        transition: 'width 0.3s ease-in-out',
+        overflow: 'hidden',
       }}
     >
-      {/* Tech News Card */}
-      <Card sx={cardStyles}>
-        <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={handleNewsExpand}>
-            <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem' }}>
-              Tech News
-            </Typography>
-            <IconButton
-              sx={{
-                transform: newsExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.3s ease-in-out',
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Box>
-          <Collapse in={newsExpanded} timeout="auto" unmountOnExit>
-            <Box sx={{ pt: 2 }}>
-              {dummyNews.map((item) => (
-                <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <NewspaperIcon sx={{ mr: 1, color: '#64748b' }} />
-                  <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif' }}>
-                    {item.headline}
-                  </Typography>
-                </Box>
-              ))}
+      <Box sx={{ opacity: isExpanded ? 1 : 0, transition: 'opacity 0.3s' }}>
+        {/* Tech News Card */}
+        <Card sx={cardStyles}>
+          <CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={handleNewsExpand}>
+              <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem' }}>
+                Tech News
+              </Typography>
+              <IconButton
+                sx={{
+                  transform: newsExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease-in-out',
+                }}
+              >
+                <ExpandMoreIcon />
+              </IconButton>
             </Box>
-          </Collapse>
-        </CardContent>
-      </Card>
+            <Collapse in={newsExpanded} timeout="auto" unmountOnExit>
+              <Box sx={{ pt: 2 }}>
+                {dummyNews.map((item) => (
+                  <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <NewspaperIcon sx={{ mr: 1, color: '#64748b' }} />
+                    <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif' }}>
+                      {item.headline}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Collapse>
+          </CardContent>
+        </Card>
 
-      <Divider />
+        <Divider sx={{ my: 2 }} />
 
-      {/* Hackathons Section */}
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-        <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem', mb: 2 }}>
-          Live & Upcoming Hackathons
-        </Typography>
-        <Box
-          sx={{
-            overflowY: 'auto',
-            flex: 1,
-            '&::-webkit-scrollbar': {
-              width: '0.4em',
-            },
-            '&::-webkit-scrollbar-track': {
-              boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
-              webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(0,0,0,.1)',
-              outline: '1px solid slategrey',
-            },
-          }}
-        >
-          {dummyHackathons.map((hackathon, index) => (
-            <Card
-              component={motion.div}
-              key={hackathon.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              sx={{ ...cardStyles, mb: 2 }}
-            >
-              <CardContent>
-                <Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.2rem' }}>
-                  {hackathon.title}
-                </Typography>
-                <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif', mb: 1 }}>
-                  {hackathon.description}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', color: '#64748b' }}>
-                  <EventIcon sx={{ mr: 1 }} />
-                  <Typography variant="caption">
-                    {hackathon.timeLeft}
+        {/* Hackathons Section */}
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem', mb: 2 }}>
+            Live & Upcoming Hackathons
+          </Typography>
+          <Box
+            sx={{
+              overflowY: 'auto',
+              flex: 1,
+              '&::-webkit-scrollbar': {
+                width: '0.4em'
+              },
+              '&::-webkit-scrollbar-track': {
+                boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0,0,0,.1)',
+                outline: '1px solid slategrey'
+              }
+            }}
+          >
+            {dummyHackathons.map((hackathon, index) => (
+              <Card
+                component={motion.div}
+                key={hackathon.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                sx={{ ...cardStyles, mb: 2 }}
+              >
+                <CardContent>
+                  <Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.2rem' }}>
+                    {hackathon.title}
                   </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          ))}
+                  <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif', mb: 1 }}>
+                    {hackathon.description}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', color: '#64748b' }}>
+                    <EventIcon sx={{ mr: 1 }} />
+                    <Typography variant="caption">
+                      {hackathon.timeLeft}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
         </Box>
       </Box>
     </Box>
