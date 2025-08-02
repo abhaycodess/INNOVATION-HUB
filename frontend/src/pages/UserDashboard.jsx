@@ -15,6 +15,7 @@ import {
   Collapse,
   Card,
   CardContent,
+  Toolbar,
 } from '@mui/material';
 import {
   Email,
@@ -26,6 +27,9 @@ import {
   CheckCircleOutline,
   Timeline,
   BarChart,
+  People,
+  PersonAdd,
+  PostAdd,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { UserContext } from '../contexts/UserContext';
@@ -57,6 +61,20 @@ const projects = [
   },
 ];
 
+const quickStats = [
+  { title: 'Followers', value: '1.2k', icon: <People /> },
+  { title: 'Following', value: '250', icon: <PersonAdd /> },
+  { title: 'Posts', value: '50', icon: <PostAdd /> },
+];
+
+const techStack = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python'];
+
+const todoList = [
+  { task: 'Review pull request', done: false },
+  { task: 'Prepare slides for presentation', done: true },
+  { task: 'Fix bug in the login page', done: false },
+];
+
 const dummyMessages = [
   {
     sender: 'Alex',
@@ -80,22 +98,22 @@ const UserDashboard = () => {
   const [showInfo, setShowInfo] = useState(true);
   const [showInbox, setShowInbox] = useState(true);
 
-  const MotionCard = motion(Card);
-
   return (
-    <Box
-      sx={{
-        p: { xs: 2, sm: 3, md: 4 },
-        pt: { xs: 8, sm: 10 },
-        bgcolor: '#f0f2f5',
-        minHeight: '100vh',
-        fontFamily: 'Inter, sans-serif',
-      }}
-    >
-      <Grid container spacing={{ xs: 2, md: 4 }}>
-        {/* Left Panel */}
-        <Grid item xs={12} md={4} lg={3}>
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+    <Box sx={{ display: 'flex' }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: { xs: 2, sm: 3, md: 4 },
+          bgcolor: '#f0f2f5',
+          minHeight: '100vh',
+          fontFamily: 'Inter, sans-serif',
+        }}
+      >
+        <Toolbar />
+        <Grid container spacing={{ xs: 2, md: 4 }}>
+          {/* Left Panel */}
+          <Grid item xs={12} md={4} lg={3}>
             <Paper elevation={5} sx={{ p: { xs: 2, md: 3 }, borderRadius: 4, mb: 4, bgcolor: '#ffffff' }}>
               <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
                 <Avatar
@@ -132,9 +150,7 @@ const UserDashboard = () => {
                 </Typography>
               </Box>
             </Paper>
-          </motion.div>
 
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
             <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>Detailed Info</Typography>
@@ -163,8 +179,7 @@ const UserDashboard = () => {
                 </List>
               </Collapse>
             </Paper>
-          </motion.div>
-        </Grid>
+          </Grid>
 
         {/* Right Panel */}
         <Grid item xs={12} md={8} lg={9}>
@@ -174,7 +189,7 @@ const UserDashboard = () => {
           <Grid container spacing={4}>
             {projects.map((proj, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
-                <MotionCard
+                <Card
                   elevation={5}
                   sx={{
                     borderRadius: 4,
@@ -182,8 +197,6 @@ const UserDashboard = () => {
                     background: proj.color,
                     height: '100%',
                   }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
                 >
                   <CardContent>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -198,14 +211,51 @@ const UserDashboard = () => {
                       sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', color: '#fff', fontWeight: 'bold' }}
                     />
                   </CardContent>
-                </MotionCard>
+                </Card>
               </Grid>
             ))}
           </Grid>
 
           <Grid container spacing={4} sx={{ mt: 2 }}>
+            <Grid item xs={12} lg={4}>
+                <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
+                  <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>Quick Stats</Typography>
+                  <Box display="flex" justifyContent="space-around">
+                    {quickStats.map(stat => (
+                      <Box key={stat.title} textAlign="center">
+                        <Typography variant="h5" sx={{ fontWeight: 700 }}>{stat.value}</Typography>
+                        <Typography variant="body2" color="text.secondary">{stat.title}</Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </Paper>
+            </Grid>
+            <Grid item xs={12} lg={4}>
+                <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
+                  <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>My Tech Stack</Typography>
+                  <Box display="flex" flexWrap="wrap" gap={1}>
+                    {techStack.map(skill => (
+                      <Chip key={skill} label={skill} sx={{ bgcolor: '#eef2f7', fontWeight: 'bold' }} />
+                    ))}
+                  </Box>
+                </Paper>
+            </Grid>
+            <Grid item xs={12} lg={4}>
+                <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
+                  <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>To-Do List</Typography>
+                  <List dense>
+                    {todoList.map(item => (
+                      <ListItem key={item.task} dense>
+                        <ListItemText primary={item.task} sx={{ textDecoration: item.done ? 'line-through' : 'none' }} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid item xs={12} lg={7}>
-              <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>Notifications</Typography>
@@ -225,8 +275,6 @@ const UserDashboard = () => {
                           bgcolor={i === 1 ? '#111' : '#f0f2f5'}
                           color={i === 1 ? '#fff' : '#000'}
                           borderRadius={2}
-                          component={motion.div}
-                          whileHover={{ scale: 1.03 }}
                         >
                           <Avatar src={msg.avatar} sx={{ width: 40, height: 40 }} />
                           <Box>
@@ -238,10 +286,8 @@ const UserDashboard = () => {
                     </Box>
                   </Collapse>
                 </Paper>
-              </motion.div>
             </Grid>
             <Grid item xs={12} lg={5}>
-              <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>
                     Calendar - March
@@ -271,7 +317,6 @@ const UserDashboard = () => {
                     })}
                   </Box>
                 </Paper>
-              </motion.div>
             </Grid>
           </Grid>
         </Grid>
