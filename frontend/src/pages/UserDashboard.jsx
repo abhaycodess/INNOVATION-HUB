@@ -52,17 +52,17 @@ const dummyMessages = [
   {
     sender: 'Alex',
     message: 'Any update on the design?',
-    avatar: 'https://i.pravatar.cc/30?img=1',
+    avatar: `https://avatar.iran.liara.run/public/boy?username=Alex`,
   },
   {
     sender: 'Priya',
-    message: 'I’ve submitted the wireframes.',
-    avatar: 'https://i.pravatar.cc/30?img=2',
+    message: "I've submitted the wireframes.",
+    avatar: `https://avatar.iran.liara.run/public/girl?username=Priya`,
   },
   {
     sender: 'David',
-    message: 'Let’s meet tomorrow.',
-    avatar: 'https://i.pravatar.cc/30?img=3',
+    message: "Let's meet tomorrow.",
+    avatar: `https://avatar.iran.liara.run/public/boy?username=David`,
   },
 ];
 
@@ -89,10 +89,12 @@ const UserDashboard = () => {
         bgcolor: '#f9f9f9',
         minHeight: '100vh',
         fontFamily: 'Inter, sans-serif',
+        marginLeft: '24px',
+        marginRight: '24px',
       }}
     >
-      <Grid container spacing={3}>
-        {/* Left Panel (No Changes) */}
+      <Grid container spacing={10}>
+        {/* Left Panel */}
         <Grid item xs={12} md={3}>
           {/* Profile Card */}
           <Paper elevation={3} sx={{ p: 4, borderRadius: 4, mb: 4 }}>
@@ -191,14 +193,20 @@ const UserDashboard = () => {
           </Paper>
         </Grid>
 
-        {/* Right Panel (RESTRUCTURED with two columns) */}
+        {/* Right Panel */}
         <Grid item xs={12} md={9}>
-          <Grid container spacing={4}>
-            {/* --- Main Content Column (Projects) --- */}
-            <Grid item xs={12} lg={8}>
+          <Grid container spacing={20}>
+            {/* Main Content Column */}
+            <Grid item xs={12} lg={9}>
               <Grid container spacing={4}>
                 {projects.map((proj, index) => (
-                  <Grid item xs={12} md={6} key={index}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={4}
+                    key={index}
+                  >
                     <Paper
                       sx={{
                         p: 3,
@@ -228,8 +236,8 @@ const UserDashboard = () => {
               </Grid>
             </Grid>
 
-            {/* --- Sidebar Column (Inbox & Calendar) --- */}
-            <Grid item xs={12} lg={4}>
+            {/* Sidebar Column */}
+            <Grid item xs={12} lg={5}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {/* Inbox Card */}
                 <Paper sx={{
@@ -241,7 +249,7 @@ const UserDashboard = () => {
                   },
                 }} elevation={3}>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="subtitle1">Inbox</Typography>
+                    <Typography variant="subtitle1">Notifications</Typography>
                     <IconButton onClick={() => setShowInbox(!showInbox)}>
                       {showInbox ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
@@ -252,7 +260,7 @@ const UserDashboard = () => {
                         <Box
                           key={i}
                           display="flex"
-                          gap={2}
+                          gap={3}
                           alignItems="center"
                           p={2}
                           bgcolor={i === 1 ? '#000' : '#f5f5f5'}
@@ -285,7 +293,7 @@ const UserDashboard = () => {
                   <Box
                     display="grid"
                     gridTemplateColumns="repeat(7, 1fr)"
-                    gap={1}
+                    gap={2}
                     textAlign="center"
                   >
                     {Array.from({ length: 31 }, (_, i) => {

@@ -1,25 +1,19 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { AppBar, Toolbar, Typography, Box, Link as MuiLink, Avatar, Tooltip, Menu, MenuItem, IconButton } from '@mui/material';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import { UserContext } from '../contexts/UserContext';
 
 const Navbar = () => {
   const location = useLocation();
   const [elevate, setElevate] = useState(false);
-  const [user, setUser] = useState(() => authService.getCurrentUser());
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
-  // Sync user state with localStorage on login/logout and on mount (reload)
-  useEffect(() => {
-    const syncUser = () => setUser(authService.getCurrentUser());
-    window.addEventListener('storage', syncUser);
-    // Also check on mount (reload)
-    syncUser();
-    return () => window.removeEventListener('storage', syncUser);
-  }, []);
+  // Remove local user sync logic, handled by UserContext
 
   useEffect(() => {
     const handleScroll = () => setElevate(window.scrollY > 10);
@@ -62,22 +56,22 @@ const Navbar = () => {
       position="fixed"
       elevation={elevate ? 4 : 0}
       sx={{
-        backgroundColor: 'rgba(255,255,255,0.45)',
-        backdropFilter: 'blur(18px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-        borderBottom: '1.5px solid rgba(200,200,200,0.25)',
-        boxShadow: elevate ? undefined : 'none',
-        transition: 'box-shadow 0.3s ease-in-out, background 0.3s',
+        background: 'rgba(255,255,255,0.85)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        borderBottom: '1.5px solid #e0e0e0',
+        boxShadow: elevate ? '0 8px 32px 0 rgba(56,189,248,0.10)' : '0 2px 8px 0 rgba(56,189,248,0.04)',
         color: '#111',
         zIndex: 1300,
         top: 0,
         left: 0,
-        width: '100vw',
+        width: '100%',
         m: 0,
         p: 0,
+        transition: 'box-shadow 0.4s cubic-bezier(.4,0,.2,1), background 0.4s cubic-bezier(.4,0,.2,1)',
       }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 8 }, py: { xs: 0, md: 0.5 }, minHeight: 48 }}>
+      <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 8 }, py: { xs: 0, md: 0.5 }, minHeight: 64, height: 64 }}>
         <Box
           component={RouterLink}
           to="/"
@@ -89,6 +83,44 @@ const Navbar = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+          {/* Feed Section button for logged-in users */}
+          {user && (
+            <MuiLink
+              component={RouterLink}
+              to="/user-home"
+              underline="none"
+              sx={{
+                color: location.pathname === '/user-home' ? '#059669' : '#222',
+                borderBottom: location.pathname === '/user-home' ? '2px solid #059669' : '2px solid transparent',
+                pb: 0.5,
+                fontWeight: 700,
+                fontSize: 16,
+                transition: 'color 0.2s',
+                '&:hover': { color: '#059669' },
+              }}
+            >
+              Feed Section
+            </MuiLink>
+          )}
+          {/* Chat button for logged-in users */}
+          {user && (
+            <MuiLink
+              component={RouterLink}
+              to="/chat"
+              underline="none"
+              sx={{
+                color: location.pathname === '/chat' ? '#38bdf8' : '#222',
+                borderBottom: location.pathname === '/chat' ? '2px solid #38bdf8' : '2px solid transparent',
+                pb: 0.5,
+                fontWeight: 700,
+                fontSize: 16,
+                transition: 'color 0.2s',
+                '&:hover': { color: '#38bdf8' },
+              }}
+            >
+              Chat
+            </MuiLink>
+          )}
           {navLinks.map(link => (
             <MuiLink
               key={link.label}
