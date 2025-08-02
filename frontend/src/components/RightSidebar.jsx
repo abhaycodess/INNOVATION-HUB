@@ -93,18 +93,36 @@ const RightSidebar = () => {
       <Divider />
 
       {/* Hackathons Section */}
-      <Box>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
         <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem', mb: 2 }}>
           Live & Upcoming Hackathons
         </Typography>
-        {dummyHackathons.map((hackathon, index) => (
-          <motion.div
-            key={hackathon.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <Card sx={{ ...cardStyles, mb: 2 }}>
+        <Box
+          sx={{
+            overflowY: 'auto',
+            flex: 1,
+            '&::-webkit-scrollbar': {
+              width: '0.4em'
+            },
+            '&::-webkit-scrollbar-track': {
+              boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+              webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,.1)',
+              outline: '1px solid slategrey'
+            }
+          }}
+        >
+          {dummyHackathons.map((hackathon, index) => (
+            <Card
+              component={motion.div}
+              key={hackathon.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              sx={{ ...cardStyles, mb: 2 }}
+            >
               <CardContent>
                 <Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.2rem' }}>
                   {hackathon.title}
@@ -120,7 +138,6 @@ const RightSidebar = () => {
                 </Box>
               </CardContent>
             </Card>
-          </motion.div>
         ))}
       </Box>
     </Box>
