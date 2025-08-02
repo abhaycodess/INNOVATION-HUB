@@ -1,21 +1,11 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { getCurrentUser } from '../services/authService';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext();
-
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => getCurrentUser());
-
-  useEffect(() => {
-    const syncUser = () => {
-      const storedUser = getCurrentUser();
-      setUser(storedUser);
-    };
-    window.addEventListener('storage', syncUser);
-    syncUser();
-    return () => window.removeEventListener('storage', syncUser);
-  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
