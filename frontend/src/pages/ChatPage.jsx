@@ -70,7 +70,7 @@ const ChatPage = () => {
         <List>
           {dummyUsers.map((user, idx) => (
             <Slide direction="right" in={true} timeout={300 + idx * 50} key={user.name} mountOnEnter unmountOnExit>
-              <ListItem button selected={selectedUser.name === user.name} onClick={() => setSelectedUser(user)} sx={{ m: 1, borderRadius: 1.5, '&.Mui-selected': { bgcolor: '#e3f2fd', '&:hover': { bgcolor: '#dcf0ff' } } }}>
+              <ListItem button={true} selected={selectedUser.name === user.name} onClick={() => setSelectedUser(user)} sx={{ m: 1, borderRadius: 1.5, '&.Mui-selected': { bgcolor: '#e3f2fd', '&:hover': { bgcolor: '#dcf0ff' } } }}>
                 <ListItemAvatar>
                   <BadgeDot online={user.online}>
                     <Avatar src={user.avatar} sx={{ width: 48, height: 48 }} />

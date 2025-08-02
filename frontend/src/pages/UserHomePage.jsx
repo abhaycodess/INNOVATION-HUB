@@ -38,6 +38,62 @@ const dummyPosts = [
     time: '1 hour ago',
     media: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80',
   },
+  {
+    user: 'Sneha Roy',
+    profilePic: 'https://avatar.iran.liara.run/public/girl?username=sneha',
+    content: 'Anyone interested in a weekend coding sprint? Let’s connect!',
+    time: '3 hours ago',
+    media: '',
+  },
+  {
+    user: 'Vikram Mehra',
+    profilePic: 'https://avatar.iran.liara.run/public/boy?username=vikram',
+    content: 'Check out this cool robotics project I built!',
+    time: '4 hours ago',
+    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    user: 'Neha Gupta',
+    profilePic: 'https://avatar.iran.liara.run/public/girl?username=neha',
+    content: 'Learning about cloud computing. Any good resources to share?',
+    time: '5 hours ago',
+    media: '',
+  },
+  {
+    user: 'Karan Malhotra',
+    profilePic: 'https://avatar.iran.liara.run/public/boy?username=karan',
+    content: 'Just finished a UI/UX design sprint. Feedback welcome!',
+    time: '6 hours ago',
+    media: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    user: 'Simran Kaur',
+    profilePic: 'https://avatar.iran.liara.run/public/girl?username=simran',
+    content: 'Attending a tech conference this weekend. Who else is going?',
+    time: '7 hours ago',
+    media: '',
+  },
+  {
+    user: 'Rohit Sharma',
+    profilePic: 'https://avatar.iran.liara.run/public/boy?username=rohit',
+    content: 'Built a new app with React Native. Demo soon!',
+    time: '8 hours ago',
+    media: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    user: 'Tanvi Desai',
+    profilePic: 'https://avatar.iran.liara.run/public/girl?username=tanvi',
+    content: 'Exploring AI in healthcare. Fascinating stuff!',
+    time: '9 hours ago',
+    media: '',
+  },
+  {
+    user: 'Dev Joshi',
+    profilePic: 'https://avatar.iran.liara.run/public/boy?username=dev',
+    content: 'My IoT project got featured in a magazine!',
+    time: '10 hours ago',
+    media: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?auto=format&fit=crop&w=600&q=80',
+  },
 ];
 
 const UserHomePage = () => {

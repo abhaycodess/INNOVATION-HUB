@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { Box, Card, CardContent, Typography, IconButton, Collapse, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import EventIcon from '@mui/icons-material/Event';
 
 const dummyNews = [
   { id: 1, headline: 'Tech Startup Raises $50M for AI Development' },
   { id: 2, headline: 'New Framework Announced for Faster Web Apps' },
   { id: 3, headline: 'The Future of Quantum Computing: A Deep Dive' },
   { id: 4, headline: 'Cybersecurity Threats on the Rise in 2025' },
+  { id: 5, headline: 'The Ethics of AI: A Heated Debate' },
+  { id: 6, headline: 'New Breakthrough in Battery Technology' },
 ];
 
 const dummyHackathons = [
   { id: 1, title: 'AI for Good Challenge', description: 'Build AI solutions to solve global challenges.', timeLeft: '4 days left' },
   { id: 2, title: 'Web3 Innovate Summit', description: 'A hackathon for the decentralized future.', timeLeft: '1 week left' },
   { id: 3, title: 'GameDev Masters', description: 'Create the next big hit in gaming.', timeLeft: '2 weeks left' },
+  { id: 4, title: 'Data Science Bowl', description: 'Solve real-world problems with data.', timeLeft: '3 weeks left' },
+  { id: 5, title: 'IoT World Hackathon', description: 'Innovate with the Internet of Things.', timeLeft: '1 month left' },
 ];
 
 const RightSidebar = () => {
@@ -22,6 +27,18 @@ const RightSidebar = () => {
 
   const handleNewsExpand = () => {
     setNewsExpanded(!newsExpanded);
+  };
+
+  const cardStyles = {
+    borderRadius: '16px',
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    transition: 'transform 0.3s ease-in-out',
+    '&:hover': {
+      transform: 'scale(1.02)',
+    },
   };
 
   return (
@@ -34,18 +51,19 @@ const RightSidebar = () => {
         width: '300px',
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#f1f5f9',
+        bgcolor: 'rgba(241, 245, 249, 0.8)',
         boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
         p: 2,
         gap: 2,
         zIndex: 1000,
+        backdropFilter: 'blur(10px)',
       }}
     >
       {/* Tech News Card */}
-      <Card sx={{ borderRadius: 4, boxShadow: 'none', bgcolor: '#ffffff' }}>
+      <Card sx={cardStyles}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={handleNewsExpand}>
-            <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>
+            <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem' }}>
               Tech News
             </Typography>
             <IconButton
@@ -60,9 +78,12 @@ const RightSidebar = () => {
           <Collapse in={newsExpanded} timeout="auto" unmountOnExit>
             <Box sx={{ pt: 2 }}>
               {dummyNews.map((item) => (
-                <Typography key={item.id} variant="body2" sx={{ mb: 1, fontFamily: 'Inter, sans-serif' }}>
-                  <ChevronRightIcon sx={{ fontSize: '1rem', verticalAlign: 'middle' }} /> {item.headline}
-                </Typography>
+                <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <NewspaperIcon sx={{ mr: 1, color: '#64748b' }} />
+                  <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif' }}>
+                    {item.headline}
+                  </Typography>
+                </Box>
               ))}
             </Box>
           </Collapse>
@@ -73,7 +94,7 @@ const RightSidebar = () => {
 
       {/* Hackathons Section */}
       <Box>
-        <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>
+        <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.5rem', mb: 2 }}>
           Live & Upcoming Hackathons
         </Typography>
         {dummyHackathons.map((hackathon, index) => (
@@ -83,17 +104,20 @@ const RightSidebar = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card sx={{ mb: 2, borderRadius: 4, boxShadow: 'none', bgcolor: '#ffffff' }}>
+            <Card sx={{ ...cardStyles, mb: 2 }}>
               <CardContent>
-                <Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>
+                <Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: '1.2rem' }}>
                   {hackathon.title}
                 </Typography>
                 <Typography variant="body2" sx={{ fontFamily: 'Inter, sans-serif', mb: 1 }}>
                   {hackathon.description}
                 </Typography>
-                <Typography variant="caption" sx={{ color: '#64748b' }}>
-                  {hackathon.timeLeft}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', color: '#64748b' }}>
+                  <EventIcon sx={{ mr: 1 }} />
+                  <Typography variant="caption">
+                    {hackathon.timeLeft}
+                  </Typography>
+                </Box>
               </CardContent>
             </Card>
           </motion.div>
