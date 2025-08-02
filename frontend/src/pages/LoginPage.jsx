@@ -35,11 +35,7 @@ const LoginPage = () => {
         gender: data.gender, // add gender if available
       });
       navigate('/user-home');
-    } catch (error) {
-      const resMessage =
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
+    } catch {
       setMessage("Login failed: Invalid credentials"); // More specific error
     }
   };

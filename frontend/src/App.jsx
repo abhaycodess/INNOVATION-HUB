@@ -16,6 +16,7 @@ import UserDashboard from './pages/UserDashboard';
 import ChatPage from './pages/ChatPage';
 import AboutUsPage from './pages/AboutUsPage';
 import BlogPage from './pages/BlogPage';
+import QAPage from './pages/QAPage';
 // Placeholder About and Profile pages
 const SettingsPage = () => <div style={{padding: 40}}><h2>Settings</h2><p>Settings details here.</p></div>;
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/create-post" element={<CreatePostPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/qa" element={<QAPage />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/settings" element={<SettingsPage />} />

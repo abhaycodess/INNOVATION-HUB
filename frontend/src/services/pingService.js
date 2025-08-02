@@ -5,7 +5,7 @@ export const pingBackend = async () => {
     // Use a public endpoint that always exists
     await axios.get('http://localhost:8080/api/auth/login');
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
