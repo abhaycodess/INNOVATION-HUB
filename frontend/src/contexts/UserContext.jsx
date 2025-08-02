@@ -3,12 +3,18 @@ import { getCurrentUser } from '../services/authService';
 
 export const UserContext = createContext();
 
+
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => getCurrentUser());
 
   useEffect(() => {
-    const storedUser = getCurrentUser();
-    if (storedUser) setUser(storedUser);
+    const syncUser = () => {
+      const storedUser = getCurrentUser();
+      setUser(storedUser);
+    };
+    window.addEventListener('storage', syncUser);
+    syncUser();
+    return () => window.removeEventListener('storage', syncUser);
   }, []);
 
   return (

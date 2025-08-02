@@ -1,25 +1,19 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { AppBar, Toolbar, Typography, Box, Link as MuiLink, Avatar, Tooltip, Menu, MenuItem, IconButton } from '@mui/material';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import { UserContext } from '../contexts/UserContext';
 
 const Navbar = () => {
   const location = useLocation();
   const [elevate, setElevate] = useState(false);
-  const [user, setUser] = useState(() => authService.getCurrentUser());
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
-  // Sync user state with localStorage on login/logout and on mount (reload)
-  useEffect(() => {
-    const syncUser = () => setUser(authService.getCurrentUser());
-    window.addEventListener('storage', syncUser);
-    // Also check on mount (reload)
-    syncUser();
-    return () => window.removeEventListener('storage', syncUser);
-  }, []);
+  // Remove local user sync logic, handled by UserContext
 
   useEffect(() => {
     const handleScroll = () => setElevate(window.scrollY > 10);
@@ -89,6 +83,25 @@ const Navbar = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+          {/* Feed Section button for logged-in users */}
+          {user && (
+            <MuiLink
+              component={RouterLink}
+              to="/user-home"
+              underline="none"
+              sx={{
+                color: location.pathname === '/user-home' ? '#059669' : '#222',
+                borderBottom: location.pathname === '/user-home' ? '2px solid #059669' : '2px solid transparent',
+                pb: 0.5,
+                fontWeight: 700,
+                fontSize: 16,
+                transition: 'color 0.2s',
+                '&:hover': { color: '#059669' },
+              }}
+            >
+              Feed Section
+            </MuiLink>
+          )}
           {navLinks.map(link => (
             <MuiLink
               key={link.label}

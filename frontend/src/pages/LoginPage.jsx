@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import { UserContext } from '../contexts/UserContext';
 import { Box, Button, TextField, Typography, Link, Alert } from '@mui/material';
 
 const LoginPage = () => {
@@ -9,6 +10,7 @@ const LoginPage = () => {
     password: '',
   });
   const [message, setMessage] = useState('');
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,9 +26,15 @@ const LoginPage = () => {
     setMessage('');
 
     try {
-      await authService.login(formData.username, formData.password);
-      navigate('/');
-      window.location.reload(); 
+      const data = await authService.login(formData.username, formData.password);
+      setUser({
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        profilePic: data.profilePic,
+        gender: data.gender, // add gender if available
+      });
+      navigate('/user-home');
     } catch (error) {
       const resMessage =
         (error.response && error.response.data && error.response.data.message) ||
@@ -35,6 +43,12 @@ const LoginPage = () => {
       setMessage("Login failed: Invalid credentials"); // More specific error
     }
   };
+  // Redirect to /user-home if already logged in
+  React.useEffect(() => {
+    if (authService.getCurrentUser()) {
+      navigate('/user-home');
+    }
+  }, [navigate]);
 
   return (
     <Box

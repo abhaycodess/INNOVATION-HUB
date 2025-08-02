@@ -5,6 +5,8 @@ import authService, { getCurrentUser } from './services/authService';
 import axios from './axios';
 import { pingBackend } from './services/pingService';
 import HomePage from './pages/HomePage';
+import UserHomePage from './pages/UserHomePage';
+import { Navigate } from 'react-router-dom';
 import FriendsPage from './pages/FriendsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -38,7 +40,8 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={user ? <Navigate to="/user-home" replace /> : <LandingPage />} />
+        <Route path="/user-home" element={<UserHomePage />} />
         <Route path="/feed" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

@@ -26,6 +26,7 @@ C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\service\Fr
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\data\DummyDataSeeder.java
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\dto\CreatePostRequest.java
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\config\WebConfig.java
+C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\controller\MeController.java
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\controller\DummyUserController.java
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\controller\VoteController.java
 C:\My Projects\innovation-hub\backend\src\main\java\com\innovationhub\crypto\HashingService.java
