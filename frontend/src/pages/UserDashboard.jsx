@@ -182,6 +182,7 @@ const UserDashboard = () => {
           </Grid>
 
         {/* Right Panel */}
+        </Grid>
         <Grid item xs={12} md={8} lg={9}>
           <Typography variant="h4" sx={{ mb: 4, fontWeight: 900, fontFamily: 'Cormorant Garamond, serif' }}>
             Welcome back, {user?.username || 'User'}!

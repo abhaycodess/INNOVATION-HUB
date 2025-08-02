@@ -1,16 +1,10 @@
 import { Card, CardHeader, Avatar, IconButton, CardContent, Typography, Box, CardActions } from '@mui/material';
-import { motion } from 'framer-motion';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 
-const PostCard = ({ post, index }) => {
+const PostCard = ({ post }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-    >
-      <Card sx={{
+    <Card sx={{
         mb: 3,
         borderRadius: 4,
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
