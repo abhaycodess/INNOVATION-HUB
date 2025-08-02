@@ -138,9 +138,9 @@ const RightSidebar = () => {
                 </Box>
               </CardContent>
             </Card>
-        ))}
+          ))}
+        </Box>
       </Box>
-    </Box>
   );
 };
 
