@@ -17,7 +17,7 @@ const LeftSidebar = () => {
 
   const navItems = [
     { name: 'Home', outlined: <HomeOutlinedIcon />, filled: <HomeIcon />, path: '/user-home' },
-    { name: 'Profile', outlined: <PersonOutlineOutlinedIcon />, filled: <PersonIcon />, path: '/user-dashboard' },
+    { name: 'Profile', outlined: <PersonOutlineOutlinedIcon />, filled: <PersonIcon />, path: '/dashboard' },
     { name: 'Chat', outlined: <ChatBubbleOutlineOutlinedIcon />, filled: <ChatBubbleIcon />, path: '/chat' },
     { name: 'Settings', outlined: <SettingsOutlinedIcon />, filled: <SettingsIcon />, path: '/settings' },
   ];

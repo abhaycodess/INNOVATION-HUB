@@ -79,17 +79,17 @@ const dummyMessages = [
   {
     sender: 'Alex',
     message: 'Any update on the design?',
-    avatar: `https://avatar.iran.liara.run/public/boy?username=Alex`,
+    avatar: 'https://avatar.iran.liara.run/public/boy?username=Alex',
   },
   {
     sender: 'Priya',
     message: "I've submitted the wireframes.",
-    avatar: `https://avatar.iran.liara.run/public/girl?username=Priya`,
+    avatar: 'https://avatar.iran.liara.run/public/girl?username=Priya',
   },
   {
     sender: 'David',
     message: "Let's meet tomorrow.",
-    avatar: `https://avatar.iran.liara.run/public/boy?username=David`,
+    avatar: 'https://avatar.iran.liara.run/public/boy?username=David',
   },
 ];
 
@@ -112,12 +112,16 @@ const UserDashboard = () => {
       >
         <Toolbar />
         <Grid container spacing={{ xs: 2, md: 4 }}>
-          {/* Left Panel */}
           <Grid item xs={12} md={4} lg={3}>
             <Paper elevation={5} sx={{ p: { xs: 2, md: 3 }, borderRadius: 4, mb: 4, bgcolor: '#ffffff' }}>
               <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
                 <Avatar
-                  src={user?.profilePic || (user?.gender === 'girl' ? `https://avatar.iran.liara.run/public/girl?username=${user.username}` : `https://avatar.iran.liara.run/public/boy?username=${user.username}`)}
+                  src={
+                    user?.profilePic ||
+                    (user?.gender === 'girl'
+                      ? `https://avatar.iran.liara.run/public/girl?username=${user.username}`
+                      : `https://avatar.iran.liara.run/public/boy?username=${user.username}`)
+                  }
                   sx={{ width: 80, height: 80, boxShadow: '0 4px 12px rgba(0,0,0,0.15)', border: '3px solid #6ee7b7' }}
                 />
                 <Box textAlign="center">
@@ -181,43 +185,42 @@ const UserDashboard = () => {
             </Paper>
           </Grid>
 
-        {/* Right Panel */}
-        <Grid item xs={12} md={8} lg={9}>
-          <Typography variant="h4" sx={{ mb: 4, fontWeight: 900, fontFamily: 'Cormorant Garamond, serif' }}>
-            Welcome back, {user?.username || 'User'}!
-          </Typography>
-          <Grid container spacing={4}>
-            {projects.map((proj, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card
-                  elevation={5}
-                  sx={{
-                    borderRadius: 4,
-                    color: '#fff',
-                    background: proj.color,
-                    height: '100%',
-                  }}
-                >
-                  <CardContent>
-                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                      <Typography variant="caption">{proj.date}</Typography>
-                      {proj.icon}
-                    </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, my: 1 }}>{proj.title}</Typography>
-                    <Typography variant="body2" sx={{ mb: 2 }}>{proj.stage}</Typography>
-                    <Chip
-                      label={`${proj.daysLeft} Days Left`}
-                      size="small"
-                      sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', color: '#fff', fontWeight: 'bold' }}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <Grid item xs={12} md={8} lg={9}>
+            <Typography variant="h4" sx={{ mb: 4, fontWeight: 900, fontFamily: 'Cormorant Garamond, serif' }}>
+              Welcome back, {user?.username || 'User'}!
+            </Typography>
+            <Grid container spacing={4}>
+              {projects.map((proj, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card
+                    elevation={5}
+                    sx={{
+                      borderRadius: 4,
+                      color: '#fff',
+                      background: proj.color,
+                      height: '100%',
+                    }}
+                  >
+                    <CardContent>
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant="caption">{proj.date}</Typography>
+                        {proj.icon}
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 700, my: 1 }}>{proj.title}</Typography>
+                      <Typography variant="body2" sx={{ mb: 2 }}>{proj.stage}</Typography>
+                      <Chip
+                        label={`${proj.daysLeft} Days Left`}
+                        size="small"
+                        sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', color: '#fff', fontWeight: 'bold' }}
+                      />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
 
-          <Grid container spacing={4} sx={{ mt: 2 }}>
-            <Grid item xs={12} lg={4}>
+            <Grid container spacing={4} sx={{ mt: 2 }}>
+              <Grid item xs={12} lg={4}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>Quick Stats</Typography>
                   <Box display="flex" justifyContent="space-around">
@@ -229,8 +232,8 @@ const UserDashboard = () => {
                     ))}
                   </Box>
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={4}>
+              </Grid>
+              <Grid item xs={12} lg={4}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>My Tech Stack</Typography>
                   <Box display="flex" flexWrap="wrap" gap={1}>
@@ -239,8 +242,8 @@ const UserDashboard = () => {
                     ))}
                   </Box>
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={4}>
+              </Grid>
+              <Grid item xs={12} lg={4}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>To-Do List</Typography>
                   <List dense>
@@ -251,11 +254,11 @@ const UserDashboard = () => {
                     ))}
                   </List>
                 </Paper>
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid container spacing={4} sx={{ mt: 2 }}>
-            <Grid item xs={12} lg={7}>
+            <Grid container spacing={4} sx={{ mt: 2 }}>
+              <Grid item xs={12} lg={7}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700 }}>Notifications</Typography>
@@ -286,14 +289,16 @@ const UserDashboard = () => {
                     </Box>
                   </Collapse>
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={5}>
+              </Grid>
+              <Grid item xs={12} lg={5}>
                 <Paper elevation={5} sx={{ p: 3, borderRadius: 4, bgcolor: '#ffffff' }}>
                   <Typography variant="h6" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, mb: 2 }}>
                     Calendar - March
                   </Typography>
                   <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1} textAlign="center">
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => <Typography key={day} variant="caption" color="text.secondary">{day}</Typography>)}
+                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
+                      <Typography key={day} variant="caption" color="text.secondary">{day}</Typography>
+                    ))}
                     {Array.from({ length: 31 }, (_, i) => {
                       const isMarked = [5, 8, 12, 21].includes(i + 1);
                       return (
@@ -317,10 +322,11 @@ const UserDashboard = () => {
                     })}
                   </Box>
                 </Paper>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 };
