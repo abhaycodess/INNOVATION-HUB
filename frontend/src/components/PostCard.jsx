@@ -1,20 +1,27 @@
-
 import { Card, CardHeader, Avatar, IconButton, CardContent, Typography, Box, CardActions } from '@mui/material';
-import { Fade } from "react-awesome-reveal";
+import { motion } from 'framer-motion';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, index }) => {
   return (
-    <Fade bottom triggerOnce>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
       <Card sx={{
         mb: 3,
         borderRadius: 4,
-        boxShadow: 3,
-        background: '#fff',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        background: '#ffffff',
         maxWidth: 600,
         mx: 'auto',
-        p: 1
+        p: 1,
+        transition: 'box-shadow 0.3s ease-in-out',
+        '&:hover': {
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        }
       }}>
         <CardHeader
           avatar={
@@ -23,21 +30,21 @@ const PostCard = ({ post }) => {
             </Avatar>
           }
           action={<IconButton aria-label="share"><ShareIcon /></IconButton>}
-          title={<Typography variant="subtitle1" fontWeight={700}>{post.author ? post.author.username : 'Anonymous'}</Typography>}
-          subheader={<Typography variant="caption" color="text.secondary">{new Date(post.createdAt).toLocaleString()}</Typography>}
+          title={<Typography variant="subtitle1" sx={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 700, fontSize: 20 }}>{post.author ? post.author.username : 'Anonymous'}</Typography>}
+          subheader={<Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'Inter, sans-serif' }}>{new Date(post.createdAt).toLocaleString()}</Typography>}
           sx={{ pb: 0 }}
         />
         <CardContent sx={{ pt: 1 }}>
-          <Typography variant="body1" color="text.primary" sx={{ mb: 1, fontSize: 18 }}>
+          <Typography variant="body1" color="text.primary" sx={{ mb: 1, fontFamily: 'Inter, sans-serif', fontSize: 16 }}>
             {post.content}
           </Typography>
           {post.imageUrl && (
-            <Box sx={{ mt: 2, borderRadius: 3, overflow: 'hidden', border: '1px solid #eee', background: '#fafbfc' }}>
+            <Box sx={{ mt: 2, borderRadius: 3, overflow: 'hidden' }}>
               <img src={post.imageUrl} alt="Post content" style={{ width: '100%', maxHeight: 400, objectFit: 'cover', borderRadius: 16 }} />
             </Box>
           )}
           {post.videoUrl && (
-            <Box sx={{ mt: 2, borderRadius: 3, overflow: 'hidden', border: '1px solid #eee', background: '#fafbfc' }}>
+            <Box sx={{ mt: 2, borderRadius: 3, overflow: 'hidden' }}>
               <video src={post.videoUrl} controls style={{ width: '100%', maxHeight: 400, borderRadius: 16 }} />
             </Box>
           )}
@@ -46,10 +53,10 @@ const PostCard = ({ post }) => {
           <IconButton aria-label="like">
             <ThumbUpOutlinedIcon />
           </IconButton>
-          <Typography variant="body2" color="text.secondary">{post.likes.length}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ fontFamily: 'Inter, sans-serif' }}>{post.likes.length}</Typography>
         </CardActions>
       </Card>
-    </Fade>
+    </motion.div>
   );
 };
 
