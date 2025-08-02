@@ -14,8 +14,8 @@ import CreatePostPage from './pages/CreatePostPage';
 import LandingPage from './pages/LandingPage';
 import UserDashboard from './pages/UserDashboard';
 import ChatPage from './pages/ChatPage';
+import AboutUsPage from './pages/AboutUsPage';
 // Placeholder About and Profile pages
-const AboutPage = () => <div style={{padding: 40}}><h2>About Us</h2><p>Info about the platform.</p></div>;
 const SettingsPage = () => <div style={{padding: 40}}><h2>Settings</h2><p>Settings details here.</p></div>;
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/create-post" element={<CreatePostPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about" element={<AboutUsPage />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/settings" element={<SettingsPage />} />
