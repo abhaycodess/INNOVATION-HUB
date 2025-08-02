@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import authService, { getCurrentUser } from './services/authService';
+import { UserContext } from './contexts/UserContext';
+import authService from './services/authService';
 import axios from './axios';
-import { pingBackend } from './services/pingService';
 import HomePage from './pages/HomePage';
 import UserHomePage from './pages/UserHomePage';
 import { Navigate } from 'react-router-dom';
 import FriendsPage from './pages/FriendsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import CreatePostPage from './pages/CreatePostPage'; // Changed from SubmitIdeaPage
+import CreatePostPage from './pages/CreatePostPage';
 import LandingPage from './pages/LandingPage';
 import UserDashboard from './pages/UserDashboard';
 import ChatPage from './pages/ChatPage';
@@ -19,23 +19,14 @@ const AboutPage = () => <div style={{padding: 40}}><h2>About Us</h2><p>Info abou
 const ProfilePage = () => <div style={{padding: 40}}><h2>Your Profile</h2><p>Profile details here.</p></div>;
 
 function App() {
-  const [user, setUser] = useState(() => getCurrentUser());
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    // Restore user state from localStorage on every load
-    const storedUser = getCurrentUser();
-    if (storedUser) {
-      setUser(storedUser);
+    const token = authService.getToken();
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
-    // On app load, ping backend. If unavailable, log out user.
-    (async () => {
-      const ok = await pingBackend();
-      if (!ok) {
-        authService.logout();
-        setUser(null);
-      }
-    })();
-  }, []);
+  }, [user]);
 
   return (
     <div>
@@ -46,7 +37,7 @@ function App() {
         <Route path="/feed" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/create-post" element={<CreatePostPage />} /> {/* Changed path */}
+        <Route path="/create-post" element={<CreatePostPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/dashboard" element={<UserDashboard />} />
