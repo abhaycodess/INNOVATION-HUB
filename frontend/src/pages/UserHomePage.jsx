@@ -131,8 +131,9 @@ const UserHomePage = () => {
         sx={{
           flexGrow: 1,
           ml: { sm: '220px' },
-          mr: { sm: '300px' },
+          mr: { sm: '250px' },
           display: 'flex',
+          transition: 'margin-right 0.3s ease-in-out',
           flexDirection: 'column',
           alignItems: 'center',
         }}
